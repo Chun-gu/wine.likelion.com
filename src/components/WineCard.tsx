@@ -1,24 +1,47 @@
-// 와인의 자료형은 정해놓은 Wine을 갖고옵니다.
+import styled from "@emotion/styled";
 import { Wine } from "../types/Wine";
 
-// wineData는 Wine이 정해놓은 자료형을 따라야합니다.
 interface WineProps {
     wineData: Wine;
 }
 
-// WineCard는 port.tsx가 넘겨준 인자, 
-// 즉 "WineProps가 정해준 자료형을 따라야하는 wineData"를 받아서 
-// HTML 태그를 반환하는 함수입니다.
 export const WineCard = ({ wineData }: WineProps) => {
-    // wineData에서 wine과 winery에 해당하는 데이터만 뽑아냅니다.
-    const { wine, winery } = wineData;
+    const { wine, winery, image, location, rating } = wineData;
 
-    // WineCard는 위에서 뽑아낸 wine과 winery를 아래 HTML 태그에 넣은 다음,
-    // port.tsx의 WineCard가 있는 자리에 HTML 태그를 반환합니다.
     return (
-        <div>
-            <h2>{wine}</h2>
-            <p>{winery}</p>
-        </div>
+        <Container>
+            <img src={image} alt="" />
+            <h2>
+                {wine}
+                <Average>{rating.average}</Average>
+            </h2>
+            <p>
+                {winery} - {location}
+            </p>
+            <p>
+                리뷰수:
+                {rating.reviews.replace(" ratings", "")}
+            </p>
+        </Container>
     );
 };
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 1em;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 1em;
+`;
+
+const Average = styled.span`
+    display: inline-block;
+    padding: 0.3em;
+    font-size: 16px;
+    margin-left: 0.5em;
+    color: white;
+    background: #2ac1bc;
+    border-radius: 3px;
+`;
